@@ -1,5 +1,7 @@
 package com.dj.app.feature.login.presentation.viewModel
 
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.viewModelScope
 import com.dj.app.core.base.BaseViewModel
 import com.dj.app.core.util.result.ResultState
@@ -18,6 +20,7 @@ class LoginViewModel @Inject constructor(
 
     private val _loginState: MutableStateFlow<LoginState> = MutableStateFlow(LoginState())
     val loginState: StateFlow<LoginState> = _loginState
+    val bindingObject = BindingObject()
 
     fun login(un: String, pass: String) {
         viewModelScope.launch {
@@ -43,5 +46,10 @@ class LoginViewModel @Inject constructor(
                 }
             }.launchIn(this)
         }
+    }
+
+    class BindingObject {
+        val userName = ObservableField("")
+        val password = ObservableField("")
     }
 }

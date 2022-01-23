@@ -19,17 +19,11 @@ class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater, null, false)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         subscribeUiEvents(viewModel)
+        binding.viewModel = viewModel
         subscribeToObservables()
-        setupListeners()
-    }
-
-    private fun setupListeners() {
-        binding.btnLogin.setOnClickListener {
-            viewModel.login(binding.etUserName.text.toString(), binding.etPassword.text.toString())
-        }
     }
 
     private fun subscribeToObservables() {

@@ -22,7 +22,9 @@ class LoginModule {
 
     @Provides
     @Singleton
-    fun provideLoginRepository(loginService: LoginService): LoginRepository =
+    fun provideLoginRepository(
+        loginService: LoginService
+    ): LoginRepository =
         LoginRepositoryImpl(loginService)
 
     @Provides

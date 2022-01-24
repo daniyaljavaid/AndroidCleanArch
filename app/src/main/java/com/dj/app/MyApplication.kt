@@ -1,6 +1,7 @@
 package com.dj.app
 
 import android.app.Application
+import com.dj.app.core.util.notification.PushNotificationManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -12,5 +13,6 @@ class MyApplication : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        PushNotificationManager.createNotificationChannel(this)
     }
 }

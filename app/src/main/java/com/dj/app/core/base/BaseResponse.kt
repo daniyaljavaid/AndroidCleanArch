@@ -1,4 +1,4 @@
-package com.dj.app.core.response
+package com.dj.app.core.base
 
 import com.google.gson.annotations.SerializedName
 

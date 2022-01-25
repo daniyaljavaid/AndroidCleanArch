@@ -12,6 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
+        <activity
+            android:name=".feature.home.presentation.view.HomeActivity"
+            android:exported="false" />
+
         <service
             android:name=".core.util.fcm.FCMService"
             android:exported="false">
@@ -19,6 +23,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".feature.login.presentation.view.LoginActivity"
             android:exported="true">

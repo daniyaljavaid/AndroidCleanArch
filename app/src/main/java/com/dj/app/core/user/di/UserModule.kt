@@ -4,13 +4,7 @@ import com.dj.app.core.db.AppDatabase
 import com.dj.app.core.user.data.remote.service.UserService
 import com.dj.app.core.user.data.repositoryImpl.UserRepositoryImpl
 import com.dj.app.core.user.domain.repository.UserRepository
-import com.dj.app.core.user.domain.useCase.UseCaseDeleteUser
-import com.dj.app.core.user.domain.useCase.UseCaseGetUser
-import com.dj.app.core.user.domain.useCase.UseCaseInsertOrUpdateUser
-import com.dj.app.feature.login.data.remote.service.LoginService
-import com.dj.app.feature.login.data.repositoryImpl.LoginRepositoryImpl
-import com.dj.app.feature.login.domain.repository.LoginRepository
-import com.dj.app.feature.login.domain.useCase.UseCaseLogin
+import com.dj.app.core.user.domain.useCase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,6 +39,17 @@ class UserModule {
 
     @Provides
     @Singleton
+    fun provideUseCaseGetLastUser(userRepository: UserRepository) =
+        UseCaseGetLastUser(userRepository)
+
+    @Provides
+    @Singleton
     fun provideUseCaseInsertOrUpdateUser(userRepository: UserRepository) =
         UseCaseInsertOrUpdateUser(userRepository)
+
+    @Provides
+    @Singleton
+    fun provideUseCaseRefreshToken(userRepository: UserRepository) =
+        UseCaseRefreshToken(userRepository)
+
 }

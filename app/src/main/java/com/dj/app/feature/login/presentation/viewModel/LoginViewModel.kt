@@ -1,7 +1,6 @@
 package com.dj.app.feature.login.presentation.viewModel
 
 import androidx.databinding.ObservableField
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.viewModelScope
 import com.dj.app.core.base.BaseViewModel
 import com.dj.app.core.util.result.ResultState

@@ -8,7 +8,10 @@ data class User(
     val email: String,
     val profilePicture: String,
     val token: String,
-    val refreshToken: String
+    val refreshToken: String,
+    val tokenExpiryTime: Long,
+    val lastTokenRefreshTime: Long = 0
 ) {
-    fun toEntity() = UserEntity(id, fullName, email, profilePicture, token, refreshToken)
+    fun toEntity() =
+        UserEntity(id, fullName, email, profilePicture, token, refreshToken, tokenExpiryTime)
 }

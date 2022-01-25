@@ -23,9 +23,7 @@ class HeaderInterceptor @Inject constructor(private val sessionManager: SessionM
         return chain.proceed(request)
     }
 
-    private fun shouldAttachToken(url: String): Boolean {
-        return !url.lowercase().contains("refreshtoken") && !url.lowercase()
-            .contains("login")
-    }
+    private fun shouldAttachToken(url: String) =
+        !url.contains("refreshtoken", true) && !url.contains("login", true)
 
 }

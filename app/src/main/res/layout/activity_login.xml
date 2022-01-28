@@ -14,7 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/bg_app"
         android:padding="15dp"
         tools:context=".feature.login.presentation.view.LoginActivity">
 
@@ -23,8 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_login"
-            android:textColor="@color/black"
-            android:textSize="32sp"
+            android:textColor="@color/tv_black"
+            android:textSize="@dimen/font_xxxl"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_username"
-            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundColor="@color/bg_app"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:hint="@string/hint_password"
-            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundColor="@color/bg_app"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tilUserName"
@@ -81,7 +81,7 @@
             android:layout_marginTop="15dp"
             android:checked="true"
             android:text="@string/text_remember_me"
-            android:textColor="@color/black"
+            android:textColor="@color/tv_black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_forgot_password"
-            android:textColor="@color/black"
+            android:textColor="@color/tv_black"
             app:layout_constraintBottom_toBottomOf="@id/cbRememberMe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/cbRememberMe" />

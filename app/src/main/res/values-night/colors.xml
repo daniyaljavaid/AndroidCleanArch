@@ -6,8 +6,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <!--    app     -->
-    <color name="bg_app">#FFFFFFFF</color>
+    <color name="bg_app">#000000</color>
     <!--    label     -->
-    <color name="tv_black">#292929</color>
+    <color name="tv_black">#d6d6d6</color>
 
 </resources>

@@ -1,7 +1,7 @@
 package com.dj.app
 
 import android.app.Application
-import com.dj.app.core.util.notification.PushNotificationManager
+import com.dj.core.util.notification.PushNotificationManager
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 

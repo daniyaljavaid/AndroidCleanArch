@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.dj.app.core.base.BaseActivity
+import com.dj.core.base.BaseActivity
 import com.dj.app.databinding.ActivityLoginBinding
 import com.dj.app.feature.home.presentation.view.HomeActivity
 import com.dj.app.feature.login.presentation.viewModel.LoginViewModel

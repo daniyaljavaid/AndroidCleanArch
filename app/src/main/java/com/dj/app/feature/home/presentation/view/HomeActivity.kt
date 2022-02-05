@@ -3,7 +3,7 @@ package com.dj.app.feature.home.presentation.view
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.dj.app.R
-import com.dj.app.core.base.BaseActivity
+import com.dj.core.base.BaseActivity
 import com.dj.app.databinding.ActivityHomeBinding
 import com.dj.app.feature.home.pages.Fragment1
 import com.dj.app.feature.home.pages.Fragment2

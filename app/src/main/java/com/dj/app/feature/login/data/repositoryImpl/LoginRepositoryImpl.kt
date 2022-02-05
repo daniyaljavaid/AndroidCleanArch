@@ -1,10 +1,10 @@
 package com.dj.app.feature.login.data.repositoryImpl
 
-import com.dj.app.core.user.domain.model.User
+import com.dj.core.user.domain.model.User
 import com.dj.app.feature.login.data.remote.service.LoginService
 import com.dj.app.feature.login.domain.model.LoginRequest
 import com.dj.app.feature.login.domain.repository.LoginRepository
-import com.dj.app.core.util.result.ResultState
+import com.dj.core.util.result.ResultState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

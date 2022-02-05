@@ -2,8 +2,8 @@ package com.dj.app.feature.login.presentation.viewModel
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
-import com.dj.app.core.base.BaseViewModel
-import com.dj.app.core.util.result.ResultState
+import com.dj.core.base.BaseViewModel
+import com.dj.core.util.result.ResultState
 import com.dj.app.feature.login.domain.model.LoginRequest
 import com.dj.app.feature.login.domain.useCase.UseCaseLogin
 import com.dj.app.feature.login.presentation.state.LoginState

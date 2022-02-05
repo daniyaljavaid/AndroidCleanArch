@@ -10,4 +10,4 @@ rootProject.name = "My Application"
 include ':app'
 include ':core'
 include ':ui'
-include ':login'
+include ':feature:login'

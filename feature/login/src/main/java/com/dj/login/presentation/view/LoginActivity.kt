@@ -1,5 +1,6 @@
 package com.dj.login.presentation.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -7,8 +8,10 @@ import com.dj.core.base.BaseActivity
 import com.dj.login.databinding.ActivityLoginBinding
 import com.dj.login.presentation.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity() {
@@ -29,11 +32,12 @@ class LoginActivity : BaseActivity() {
         lifecycleScope.launch {
             viewModel.loginState.collectLatest {
                 if (it.isSuccessful) {
-//                    Timber.e("Successful")
-//                    delay(1500)
-//                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-//                    startActivity(intent)
-//                    finish()
+                    Timber.e("Successful")
+                    delay(1500)
+                    val intent = Intent()
+                    intent.setClassName(this@LoginActivity, "com.dj.home.presentation.view.HomeActivity")
+                    startActivity(intent)
+                    finish()
                 }
             }
         }

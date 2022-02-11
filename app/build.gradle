@@ -12,6 +12,10 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
     defaultConfig {
         applicationId "com.dj.app"
         minSdk 21
@@ -23,16 +27,16 @@ android {
     }
     signingConfigs {
         stagConfig {
-            storeFile file("../certificates/cert_stag.jks")
-            storePassword "dj12345"
-            keyAlias "dj12345"
-            keyPassword "dj12345"
+            storeFile file(properties.getProperty('stagConfig.certPath'))
+            storePassword properties.getProperty('stagConfig.storePassword')
+            keyAlias properties.getProperty('stagConfig.keyAlias')
+            keyPassword properties.getProperty('stagConfig.keyPassword')
         }
-        prodConfig {
-            storeFile file("../certificates/cert_release.jks")
-            storePassword "dj12345"
-            keyAlias "dj12345"
-            keyPassword "dj12345"
+        releaseConfig {
+            storeFile file(properties.getProperty('releaseConfig.certPath'))
+            storePassword properties.getProperty('releaseConfig.storePassword')
+            keyAlias properties.getProperty('releaseConfig.keyAlias')
+            keyPassword properties.getProperty('releaseConfig.keyPassword')
         }
     }
     buildTypes {
@@ -42,9 +46,9 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://591143b0-e6ad-428a-8266-85cafd62f06d.mock.pstmn.io/\"")
             buildConfigField("Boolean", "IS_ENCRYPTION_ENABLED", "false")
             buildConfigField("Boolean", "IS_TLS_ENABLED", "false")
-            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_DEBUGGING_${defaultConfig.versionName}\"")
-            buildConfigField("String", "DB_NAME", "\"ROOM_DB_DEBUG_${defaultConfig.versionName}\"")
-            buildConfigField("double", "DB_VERSION", defaultConfig.versionName)
+            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_DEBUGGING\"")
+            buildConfigField("String", "DB_NAME", "\"ROOM_DB_DEBUG\"")
+            buildConfigField("int", "DB_VERSION", '1')
             buildConfigField("long", "TIME_OUT", '30')
 
             applicationVariants.all { variant ->
@@ -59,9 +63,9 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://591143b0-e6ad-428a-8266-85cafd62f06d.mock.pstmn.io/\"")
             buildConfigField("Boolean", "IS_ENCRYPTION_ENABLED", "false")
             buildConfigField("Boolean", "IS_TLS_ENABLED", "false")
-            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_STAGING_${defaultConfig.versionName}\"")
-            buildConfigField("String", "DB_NAME", "\"ROOM_DB_STAG_${defaultConfig.versionName}\"")
-            buildConfigField("double", "DB_VERSION", defaultConfig.versionName)
+            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_STAGING\"")
+            buildConfigField("String", "DB_NAME", "\"ROOM_DB_STAG\"")
+            buildConfigField("int", "DB_VERSION", '1')
             buildConfigField("long", "TIME_OUT", '30')
 
             signingConfig signingConfigs.stagConfig
@@ -78,12 +82,12 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://591143b0-e6ad-428a-8266-85cafd62f06d.mock.pstmn.io/\"")
             buildConfigField("Boolean", "IS_ENCRYPTION_ENABLED", "false")
             buildConfigField("Boolean", "IS_TLS_ENABLED", "false")
-            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_PRODUCTION_${defaultConfig.versionName}\"")
-            buildConfigField("String", "DB_NAME", "\"ROOM_DB_RELEASE_${defaultConfig.versionName}\"")
-            buildConfigField("double", "DB_VERSION", defaultConfig.versionName)
+            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_RELEASE\"")
+            buildConfigField("String", "DB_NAME", "\"ROOM_DB_REL\"")
+            buildConfigField("int", "DB_VERSION", '1')
             buildConfigField("long", "TIME_OUT", '30')
 
-            signingConfig signingConfigs.prodConfig
+            signingConfig signingConfigs.releaseConfig
 
             applicationVariants.all { variant ->
                 variant.outputs.all {

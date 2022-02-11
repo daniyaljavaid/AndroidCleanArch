@@ -9,26 +9,9 @@ android {
     compileSdk 31
 
     defaultConfig {
-        versionCode 1
-        versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        stagConfig {
-            storeFile file("../certificates/cert_stag.jks")
-            storePassword "dj12345"
-            keyAlias "dj12345"
-            keyPassword "dj12345"
-        }
-        prodConfig {
-            storeFile file("../certificates/cert_release.jks")
-            storePassword "dj12345"
-            keyAlias "dj12345"
-            keyPassword "dj12345"
-        }
-    }
     buildTypes {
         debug {
             minifyEnabled false
@@ -36,9 +19,9 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://591143b0-e6ad-428a-8266-85cafd62f06d.mock.pstmn.io/\"")
             buildConfigField("Boolean", "IS_ENCRYPTION_ENABLED", "false")
             buildConfigField("Boolean", "IS_TLS_ENABLED", "false")
-            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_DEBUGGING_${defaultConfig.versionName}\"")
-            buildConfigField("String", "DB_NAME", "\"ROOM_DB_DEBUG_${defaultConfig.versionName}\"")
-            buildConfigField("double", "DB_VERSION", defaultConfig.versionName)
+            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_DEBUGGING\"")
+            buildConfigField("String", "DB_NAME", "\"ROOM_DB_DEBUG\"")
+            buildConfigField("int", "DB_VERSION", '1')
             buildConfigField("long", "TIME_OUT", '30')
 
         }
@@ -48,12 +31,10 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://591143b0-e6ad-428a-8266-85cafd62f06d.mock.pstmn.io/\"")
             buildConfigField("Boolean", "IS_ENCRYPTION_ENABLED", "false")
             buildConfigField("Boolean", "IS_TLS_ENABLED", "false")
-            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_STAGING_${defaultConfig.versionName}\"")
-            buildConfigField("String", "DB_NAME", "\"ROOM_DB_STAG_${defaultConfig.versionName}\"")
-            buildConfigField("double", "DB_VERSION", defaultConfig.versionName)
+            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_STAGING\"")
+            buildConfigField("String", "DB_NAME", "\"ROOM_DB_STAG\"")
+            buildConfigField("int", "DB_VERSION", '1')
             buildConfigField("long", "TIME_OUT", '30')
-
-            signingConfig signingConfigs.stagConfig
 
         }
         release {
@@ -62,12 +43,10 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://591143b0-e6ad-428a-8266-85cafd62f06d.mock.pstmn.io/\"")
             buildConfigField("Boolean", "IS_ENCRYPTION_ENABLED", "false")
             buildConfigField("Boolean", "IS_TLS_ENABLED", "false")
-            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_PRODUCTION_${defaultConfig.versionName}\"")
-            buildConfigField("String", "DB_NAME", "\"ROOM_DB_RELEASE_${defaultConfig.versionName}\"")
-            buildConfigField("double", "DB_VERSION", defaultConfig.versionName)
+            buildConfigField("String", "DATA_STORE_NAME", "\"DATA_STORE_RELEASE\"")
+            buildConfigField("String", "DB_NAME", "\"ROOM_DB_REL\"")
+            buildConfigField("int", "DB_VERSION", '1')
             buildConfigField("long", "TIME_OUT", '30')
-
-            signingConfig signingConfigs.prodConfig
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

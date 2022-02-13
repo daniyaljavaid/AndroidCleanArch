@@ -48,7 +48,7 @@ class LoginViewModel @Inject constructor(
     }
 
     class BindingObject {
-        val userName = ObservableField("")
+        val email = ObservableField("")
         val password = ObservableField("")
     }
 }

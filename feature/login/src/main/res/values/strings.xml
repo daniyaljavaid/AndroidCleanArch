@@ -5,6 +5,7 @@
     hint_ => hints
     message_ => alert/snackBar/toast
     -->
+    <string name="hint_email">Email</string>
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="text_remember_me">Remember Me</string>

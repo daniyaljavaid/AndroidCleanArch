@@ -28,7 +28,8 @@ class UseCaseLogin @Inject constructor(
                 if (it is ResultState.Success) {
                     it.data?.let { user ->
                         useCaseGetLastUser().collect { lastUser ->
-                            Timber.e(lastUser.data?.id ?: "No user exits")
+                            if (lastUser is ResultState.Success)
+                                Timber.e(lastUser.data?.id ?: "No user exits")
                         }
                         useCaseInsertOrUpdateUser(user).collect()
                     }

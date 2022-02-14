@@ -11,7 +11,7 @@ interface UserDao : BaseDao<UserEntity> {
     fun getUser(id: String): UserEntity
 
     @Query("SELECT * FROM userentity LIMIT 1")
-    fun getLastUser(): UserEntity
+    fun getLastUser(): UserEntity?
 
     @Query("DELETE FROM userentity WHERE id = :id")
     fun deleteUser(id: String)

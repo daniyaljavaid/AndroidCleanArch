@@ -4,6 +4,7 @@ import com.dj.login.data.remote.service.LoginService
 import com.dj.login.data.repositoryImpl.LoginRepositoryImpl
 import com.dj.login.domain.repository.LoginRepository
 import com.dj.login.domain.useCase.UseCaseLogin
+import com.dj.login.util.LoginValidator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +28,13 @@ class LoginModule {
     ): LoginRepository =
         LoginRepositoryImpl(loginService)
 
+
     @Provides
     @Singleton
-    fun provideUseCaseLogin(loginRepository: LoginRepository) = UseCaseLogin(loginRepository)
+    fun provideLoginValidator() = LoginValidator()
+
+    @Provides
+    @Singleton
+    fun provideUseCaseLogin(loginValidator: LoginValidator, loginRepository: LoginRepository) =
+        UseCaseLogin(loginValidator, loginRepository)
 }

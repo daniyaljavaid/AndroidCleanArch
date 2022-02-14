@@ -9,9 +9,11 @@ import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class UseCaseLogin @Inject constructor(private val loginRepository: LoginRepository) {
+class UseCaseLogin @Inject constructor(
+    private val validator: LoginValidator,
+    private val loginRepository: LoginRepository
+) {
     operator fun invoke(loginRequest: LoginRequest) = flow<ResultState<User>> {
-        val validator = LoginValidator()
         if (!validator.isEmailValid(loginRequest.username)) {
             emit(ResultState.Error("Invalid Email"))
         } else if (!validator.isPasswordValid(loginRequest.password)) {

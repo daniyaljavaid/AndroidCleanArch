@@ -14,7 +14,7 @@ class UseCaseLogin @Inject constructor(
     private val loginRepository: LoginRepository
 ) {
     operator fun invoke(loginRequest: LoginRequest) = flow<ResultState<User>> {
-        if (!validator.isEmailValid(loginRequest.username)) {
+        if (!validator.isEmailValid(loginRequest.email)) {
             emit(ResultState.Error("Invalid Email"))
         } else if (!validator.isPasswordValid(loginRequest.password)) {
             emit(ResultState.Error("Invalid Password"))

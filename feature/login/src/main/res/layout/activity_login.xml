@@ -32,7 +32,7 @@
             app:layout_constraintVertical_bias="0.15" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilUserName"
+            android:id="@+id/tilEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_email"
@@ -46,7 +46,7 @@
             app:startIconDrawable="@drawable/ic_baseline_person_24">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etUserName"
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@={viewModel.bindingObject.email}" />
@@ -62,7 +62,7 @@
             app:boxBackgroundColor="@color/bg_app"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilUserName"
+            app:layout_constraintTop_toBottomOf="@id/tilEmail"
             app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/ic_baseline_lock_24">
 

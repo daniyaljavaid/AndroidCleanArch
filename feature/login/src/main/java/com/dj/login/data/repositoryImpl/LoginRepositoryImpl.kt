@@ -15,8 +15,12 @@ class LoginRepositoryImpl @Inject constructor(
 
     override fun submitLogin(loginRequest: LoginRequest): Flow<ResultState<User>> = flow {
         emit(ResultState.Loading())
-        val resp = loginService.login(loginRequest.toDto())
-        emit(ResultState.Success(data = resp.user.toUser(), message = resp.message))
+        try {
+            val resp = loginService.login(loginRequest.toDto())
+            emit(ResultState.Success(data = resp.user.toUser(), message = resp.message))
+        } catch (e: Exception) {
+            emit(ResultState.Error("Request Failed"))
+        }
     }
 
 }

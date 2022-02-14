@@ -1,5 +1,7 @@
 package com.dj.login.di
 
+import com.dj.core.user.domain.useCase.UseCaseGetLastUser
+import com.dj.core.user.domain.useCase.UseCaseInsertOrUpdateUser
 import com.dj.login.data.remote.service.LoginService
 import com.dj.login.data.repositoryImpl.LoginRepositoryImpl
 import com.dj.login.domain.repository.LoginRepository
@@ -35,6 +37,10 @@ class LoginModule {
 
     @Provides
     @Singleton
-    fun provideUseCaseLogin(loginValidator: LoginValidator, loginRepository: LoginRepository) =
-        UseCaseLogin(loginValidator, loginRepository)
+    fun provideUseCaseLogin(
+        loginValidator: LoginValidator, loginRepository: LoginRepository,
+        useCaseInsertOrUpdateUser: UseCaseInsertOrUpdateUser,
+        useCaseGetLastUser: UseCaseGetLastUser
+    ) =
+        UseCaseLogin(loginValidator, loginRepository, useCaseInsertOrUpdateUser, useCaseGetLastUser)
 }

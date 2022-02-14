@@ -6,8 +6,11 @@ import com.dj.core.user.domain.model.RefreshTokenRequest
 import com.dj.core.user.domain.model.User
 import com.dj.core.user.domain.repository.UserRepository
 import com.dj.core.util.result.ResultState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -17,8 +20,13 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun insertOrUpdateUser(user: User): Flow<ResultState<Boolean>> = flow {
         emit(ResultState.Loading())
-        userDao.insert(user.toEntity())
-        emit(ResultState.Success(data = true))
+        try {
+            userDao.insert(user.toEntity())
+            emit(ResultState.Success(data = true))
+        } catch (exception: Exception) {
+            Timber.e(exception.message)
+            emit(ResultState.Error("User insert/update failed"))
+        }
     }
 
     override fun getUser(id: String): Flow<ResultState<User>> = flow {
@@ -29,9 +37,14 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getLastUser(): Flow<ResultState<User>> = flow {
         emit(ResultState.Loading())
-        val user = userDao.getLastUser()
-        emit(ResultState.Success(data = user.toUser()))
-    }
+        try {
+            val user = userDao.getLastUser()
+            emit(ResultState.Success(data = user.toUser()))
+        } catch (exception: Exception) {
+            Timber.e(exception.message)
+            emit(ResultState.Error("Get last user failed"))
+        }
+    }.flowOn(Dispatchers.IO)
 
     override fun deleteUser(id: String): Flow<ResultState<Boolean>> = flow {
         emit(ResultState.Loading())

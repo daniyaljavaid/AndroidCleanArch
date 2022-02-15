@@ -22,6 +22,6 @@ class LoginRepositoryImpl @Inject constructor(
         emit(ResultState.Success(data = resp.user.toUser(), message = resp.message))
     }.catch {
         emit(ResultState.Error("Request Failed"))
-    }.flowOn(Dispatchers.IO)
+    }
 
 }

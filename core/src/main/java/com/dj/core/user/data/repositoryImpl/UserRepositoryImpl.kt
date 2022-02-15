@@ -26,7 +26,7 @@ class UserRepositoryImpl @Inject constructor(
     }.catch { exception ->
         Timber.e(exception.message)
         emit(ResultState.Error("User insert/update failed"))
-    }.flowOn(Dispatchers.IO)
+    }
 
     override fun getUser(id: String): Flow<ResultState<User>> = flow {
         emit(ResultState.Loading())
@@ -35,7 +35,7 @@ class UserRepositoryImpl @Inject constructor(
     }.catch { exception ->
         Timber.e(exception.message)
         emit(ResultState.Error("Get user failed"))
-    }.flowOn(Dispatchers.IO)
+    }
 
     override fun getLastUser(): Flow<ResultState<User>> = flow {
         emit(ResultState.Loading())
@@ -44,7 +44,7 @@ class UserRepositoryImpl @Inject constructor(
     }.catch { exception ->
         Timber.e(exception.message)
         emit(ResultState.Error("Get last user failed"))
-    }.flowOn(Dispatchers.IO)
+    }
 
     override fun deleteUser(id: String): Flow<ResultState<Boolean>> = flow {
         emit(ResultState.Loading())
@@ -53,7 +53,7 @@ class UserRepositoryImpl @Inject constructor(
     }.catch { exception ->
         Timber.e(exception.message)
         emit(ResultState.Error("Delete user failed"))
-    }.flowOn(Dispatchers.IO)
+    }
 
     override fun refreshToken(request: RefreshTokenRequest): Flow<ResultState<String>> = flow {
         emit(ResultState.Loading())
@@ -62,6 +62,6 @@ class UserRepositoryImpl @Inject constructor(
     }.catch { exception ->
         Timber.e(exception.message)
         emit(ResultState.Error("Refresh token failed"))
-    }.flowOn(Dispatchers.IO)
+    }
 
 }

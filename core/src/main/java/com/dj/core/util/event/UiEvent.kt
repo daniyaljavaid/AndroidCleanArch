@@ -3,7 +3,6 @@ package com.dj.core.util.event
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 sealed class UiEvent {
-    object Initial : UiEvent()
     class ShowLoader(val show: Boolean) : UiEvent()
     class ShowToast(val message: String) : UiEvent()
     class ShowSnackBar(val message: String, val action: (() -> Unit)? = null) : UiEvent()

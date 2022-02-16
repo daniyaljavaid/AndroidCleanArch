@@ -17,8 +17,10 @@ class LoginViewModel @Inject constructor(
     private val useCaseLogin: UseCaseLogin
 ) : BaseViewModel() {
 
-    private val _loginState: MutableStateFlow<LoginState> = MutableStateFlow(LoginState())
+    private val _loginState: MutableStateFlow<LoginState> =
+        MutableStateFlow(LoginState.Initial)
     val loginState: StateFlow<LoginState> = _loginState
+
     val bindingObject = BindingObject()
 
     fun login(un: String, pass: String) {
@@ -27,16 +29,11 @@ class LoginViewModel @Inject constructor(
                 when (result) {
                     is ResultState.Success -> {
                         showLoader(false)
-                        _loginState.value = loginState.value.copy(
-                            isSuccessful = true
-                        )
+                        _loginState.value = LoginState.Success
                         showSnackBar(message = result.message ?: "")
                     }
                     is ResultState.Error -> {
                         showLoader(false)
-                        _loginState.value = loginState.value.copy(
-                            isSuccessful = false
-                        )
                         showSnackBar(result.message ?: "Unknown error")
                     }
                     is ResultState.Loading -> {
@@ -48,7 +45,7 @@ class LoginViewModel @Inject constructor(
     }
 
     class BindingObject {
-        val email = ObservableField("")
-        val password = ObservableField("")
+        val email = ObservableField("dj@gmail.com")
+        val password = ObservableField("Test@123")
     }
 }

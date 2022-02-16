@@ -3,11 +3,13 @@ package com.dj.core.base
 import androidx.lifecycle.ViewModel
 import com.dj.core.util.event.UiEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 abstract class BaseViewModel() : ViewModel() {
-    private val _uiEventsLiveData = MutableSharedFlow<UiEvent>()
-    val uiEvents = _uiEventsLiveData.asSharedFlow()
+    private val _uiEventsLiveData = MutableStateFlow<UiEvent>(UiEvent.Initial)
+    val uiEvents = _uiEventsLiveData.asStateFlow()
 
     suspend fun showLoader(show: Boolean) {
         _uiEventsLiveData.emit(UiEvent.ShowLoader(show))

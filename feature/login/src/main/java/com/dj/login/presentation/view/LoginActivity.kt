@@ -3,9 +3,12 @@ package com.dj.login.presentation.view
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.dj.core.base.BaseActivity
 import com.dj.login.databinding.ActivityLoginBinding
+import com.dj.login.presentation.state.LoginState
 import com.dj.login.presentation.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -30,14 +33,21 @@ class LoginActivity : BaseActivity() {
 
     private fun subscribeToObservables() {
         lifecycleScope.launch {
-            viewModel.loginState.collectLatest {
-                if (it.isSuccessful) {
-                    Timber.e("Successful")
-                    delay(1500)
-                    val intent = Intent()
-                    intent.setClassName(this@LoginActivity, "com.dj.home.presentation.view.HomeActivity")
-                    startActivity(intent)
-                    finish()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loginState.collect { state ->
+                    when (state) {
+                        is LoginState.Success -> {
+                            delay(1500)
+                            val intent = Intent()
+                            intent.setClassName(
+                                this@LoginActivity,
+                                "com.dj.home.presentation.view.HomeActivity"
+                            )
+                            startActivity(intent)
+                            finish()
+                        }
+
+                    }
                 }
             }
         }

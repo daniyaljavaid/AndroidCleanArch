@@ -1,5 +1,6 @@
 package com.dj.login.presentation.state
 
-data class LoginState(
-    val isSuccessful: Boolean = false
-)
+sealed class LoginState {
+    object Initial : LoginState()
+    object Success : LoginState()
+}

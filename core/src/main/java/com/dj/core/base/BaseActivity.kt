@@ -2,6 +2,9 @@ package com.dj.core.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
 import com.dj.core.util.event.UiEvent
 import com.dj.core.util.event.UiEventUtil
@@ -19,24 +22,26 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun subscribeUiEvents(baseViewModel: BaseViewModel) {
-        baseViewModel.viewModelScope.launch {
-            baseViewModel.uiEvents.collectLatest { event ->
-                when (event) {
-                    is UiEvent.ShowAlert -> {
-                        UiEventUtil.showAlert(event.message, this@BaseActivity)
-                    }
-                    is UiEvent.ShowToast -> {
-                        UiEventUtil.showToast(event.message, this@BaseActivity)
-                    }
-                    is UiEvent.ShowLoader -> {
-                        UiEventUtil.showLoader(event.show, customProgressDialog)
-                    }
-                    is UiEvent.ShowSnackBar -> {
-                        UiEventUtil.showSnackBar(
-                            findViewById(android.R.id.content),
-                            event.message,
-                            event.action
-                        )
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                baseViewModel.uiEvents.collect { event ->
+                    when (event) {
+                        is UiEvent.ShowAlert -> {
+                            UiEventUtil.showAlert(event.message, this@BaseActivity)
+                        }
+                        is UiEvent.ShowToast -> {
+                            UiEventUtil.showToast(event.message, this@BaseActivity)
+                        }
+                        is UiEvent.ShowLoader -> {
+                            UiEventUtil.showLoader(event.show, customProgressDialog)
+                        }
+                        is UiEvent.ShowSnackBar -> {
+                            UiEventUtil.showSnackBar(
+                                findViewById(android.R.id.content),
+                                event.message,
+                                event.action
+                            )
+                        }
                     }
                 }
             }

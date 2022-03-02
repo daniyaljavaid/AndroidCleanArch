@@ -42,5 +42,7 @@ class LoginModule {
         useCaseInsertOrUpdateUser: UseCaseInsertOrUpdateUser,
         useCaseGetLastUser: UseCaseGetLastUser
     ) =
-        UseCaseLogin(loginValidator, loginRepository, useCaseInsertOrUpdateUser, useCaseGetLastUser)
+        UseCaseLogin(loginValidator, loginRepository
+//            , useCaseInsertOrUpdateUser, useCaseGetLastUser
+        )
 }

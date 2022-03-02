@@ -14,8 +14,8 @@ import javax.inject.Inject
 class UseCaseLogin @Inject constructor(
     private val validator: LoginValidator,
     private val loginRepository: LoginRepository,
-    private val useCaseInsertOrUpdateUser: UseCaseInsertOrUpdateUser,
-    private val useCaseGetLastUser: UseCaseGetLastUser
+//    private val useCaseInsertOrUpdateUser: UseCaseInsertOrUpdateUser,
+//    private val useCaseGetLastUser: UseCaseGetLastUser
 ) {
     operator fun invoke(loginRequest: LoginRequest) = flow<ResultState<User>> {
         if (!validator.isEmailValid(loginRequest.email)) {
@@ -26,13 +26,13 @@ class UseCaseLogin @Inject constructor(
             loginRepository.submitLogin(loginRequest).collect {
                 emit(it)
                 if (it is ResultState.Success) {
-                    it.data?.let { user ->
-                        useCaseGetLastUser().collect { lastUser ->
-                            if (lastUser is ResultState.Success)
-                                Timber.e(lastUser.data?.id ?: "No user exists")
-                        }
-                        useCaseInsertOrUpdateUser(user).collect()
-                    }
+//                    it.data?.let { user ->
+//                        useCaseGetLastUser().collect { lastUser ->
+//                            if (lastUser is ResultState.Success)
+//                                Timber.e(lastUser.data?.id ?: "No user exists")
+//                        }
+//                        useCaseInsertOrUpdateUser(user).collect()
+//                    }
                 }
             }
         }

@@ -12,12 +12,12 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class UseCaseLogin @Inject constructor(
-    private val validator: LoginValidator,
-    private val loginRepository: LoginRepository,
+     private val validator: LoginValidator,
+     private val loginRepository: LoginRepository,
 //    private val useCaseInsertOrUpdateUser: UseCaseInsertOrUpdateUser,
 //    private val useCaseGetLastUser: UseCaseGetLastUser
 ) {
-    operator fun invoke(loginRequest: LoginRequest) = flow<ResultState<User>> {
+    fun login(loginRequest: LoginRequest) = flow<ResultState<User>> {
         if (!validator.isEmailValid(loginRequest.email)) {
             emit(ResultState.Error("Invalid Email"))
         } else if (!validator.isPasswordValid(loginRequest.password)) {

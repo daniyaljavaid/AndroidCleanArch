@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
 
     fun login(un: String, pass: String) {
         viewModelScope.launch {
-            useCaseLogin(LoginRequest(un, pass)).onEach { result ->
+            useCaseLogin.login(LoginRequest(un, pass)).onEach { result ->
                 when (result) {
                     is ResultState.Success -> {
                         showLoader(false)
@@ -34,6 +34,7 @@ class LoginViewModel @Inject constructor(
                     }
                     is ResultState.Error -> {
                         showLoader(false)
+                        _loginState.value = LoginState.Failure
                         showSnackBar(result.message ?: "Unknown error")
                     }
                     is ResultState.Loading -> {

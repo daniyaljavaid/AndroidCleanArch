@@ -1,7 +1,7 @@
 package com.dj.login.presentation.state
 
-sealed class LoginState {
+sealed class LoginState(val message: String? = null) {
     object Initial : LoginState()
     object Success : LoginState()
-    object Failure : LoginState()
+    class Failure(message: String) : LoginState(message)
 }

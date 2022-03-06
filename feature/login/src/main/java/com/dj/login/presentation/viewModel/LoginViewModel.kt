@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor(
                     }
                     is ResultState.Error -> {
                         showLoader(false)
-                        _loginState.value = LoginState.Failure
+                        _loginState.value = LoginState.Failure(result.message ?: "Unknown error")
                         showSnackBar(result.message ?: "Unknown error")
                     }
                     is ResultState.Loading -> {
@@ -46,7 +46,7 @@ class LoginViewModel @Inject constructor(
     }
 
     class BindingObject {
-        val email = ObservableField("dj@gmail.com")
-        val password = ObservableField("Test@123")
+        val email = ObservableField("")
+        val password = ObservableField("")
     }
 }

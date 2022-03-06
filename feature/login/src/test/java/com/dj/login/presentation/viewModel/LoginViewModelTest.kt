@@ -6,9 +6,7 @@ import com.dj.core.util.result.ResultState
 import com.dj.login.domain.model.LoginRequest
 import com.dj.login.domain.useCase.UseCaseLogin
 import com.dj.login.presentation.state.LoginState
-import com.dj.login.util.LoginValidator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
@@ -65,7 +63,7 @@ class LoginViewModelTest {
                 viewModel.loginState.test {
                     Assert.assertEquals(LoginState.Initial, awaitItem())
                     val failureState = awaitItem()
-                    Assert.assertEquals(true, failureState is LoginState.Failure)
+                    Assert.assertTrue(failureState is LoginState.Failure)
                     Assert.assertEquals("Invalid Email", failureState.message)
                     cancelAndConsumeRemainingEvents()
                 }
@@ -85,7 +83,7 @@ class LoginViewModelTest {
                 viewModel.loginState.test {
                     Assert.assertEquals(LoginState.Initial, awaitItem())
                     val failureState = awaitItem()
-                    Assert.assertEquals(true, failureState is LoginState.Failure)
+                    Assert.assertTrue(failureState is LoginState.Failure)
                     Assert.assertEquals("Invalid Password", failureState.message)
                     cancelAndConsumeRemainingEvents()
                 }
@@ -99,7 +97,6 @@ class LoginViewModelTest {
         val pass = "Test@123"
         stubLoginUseCase(LoginRequest(email, pass), flow {
             emit(ResultState.Loading())
-            delay(1000)
             emit(ResultState.Success(message = "Login Success"))
         })
         viewModel.login(email, pass)

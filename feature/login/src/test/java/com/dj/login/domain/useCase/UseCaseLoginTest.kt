@@ -104,7 +104,9 @@ class UseCaseLoginTest {
         runTest {
             launch(Dispatchers.Main) {
                 useCase.login(request).test {
-                    assertTrue(awaitItem() is ResultState.Error)
+                    val errorState = awaitItem()
+                    assertTrue(errorState is ResultState.Error)
+                    assertTrue(errorState.message == "Invalid Email")
 
                     cancelAndConsumeRemainingEvents()
                 }
@@ -119,7 +121,9 @@ class UseCaseLoginTest {
         runTest {
             launch(Dispatchers.Main) {
                 useCase.login(request).test {
-                    assertTrue(awaitItem() is ResultState.Error)
+                    val errorState = awaitItem()
+                    assertTrue(errorState is ResultState.Error)
+                    assertTrue(errorState.message == "Invalid Password")
 
                     cancelAndConsumeRemainingEvents()
                 }

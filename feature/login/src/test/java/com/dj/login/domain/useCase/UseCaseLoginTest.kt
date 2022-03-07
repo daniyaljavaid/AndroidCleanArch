@@ -56,9 +56,11 @@ class UseCaseLoginTest {
     @Test
     fun `correct email password emits User object`() {
         val request = LoginRequest("daniyal@gmail.com", "Test@123")
+        val mockUser = mock(User::class.java)
+        Mockito.`when`(mockUser.id).thenReturn("111-222")
         stubLoginRepository(request, flow {
             emit(ResultState.Loading())
-            emit(ResultState.Success(data = mock(User::class.java), message = "Login Successful"))
+            emit(ResultState.Success(data = mockUser, message = "Login Successful"))
         })
         runTest {
             launch(Dispatchers.Main) {
@@ -66,8 +68,8 @@ class UseCaseLoginTest {
                     assertTrue(awaitItem() is ResultState.Loading)
                     val successResultState = awaitItem()
                     assertTrue(successResultState is ResultState.Success)
-                    assertTrue(successResultState.message == "Login Successful")
-                    assertTrue(successResultState.data is User)
+                    assertEquals("Login Successful", successResultState.message)
+                    assertEquals("111-222", successResultState.data?.id)
 
                     cancelAndConsumeRemainingEvents()
                 }
@@ -75,18 +77,53 @@ class UseCaseLoginTest {
         }
     }
 
-//    @Test
-//    fun `incorrect email password emits Error`() {
-//        val request = LoginRequest("daniyalgmail.com", "Test@123")
-//        stubLoginRepository(request, flow {
-//
-//        })
-//        runTest {
-//            launch(Dispatchers.Main) {
-//                useCase.login(request).test {
-//
-//                }
-//            }
-//        }
-//    }
+    @Test
+    //server emits error for wrong email/pass
+    fun `incorrect email password emits Error`() {
+        val request = LoginRequest("incorrect@email.com", "Wrong@Pass123")
+        stubLoginRepository(request, flow {
+            emit(ResultState.Loading())
+            emit(ResultState.Error(message = "Incorrect email or password"))
+        })
+        runTest {
+            launch(Dispatchers.Main) {
+                useCase.login(request).test {
+                    assertTrue(awaitItem() is ResultState.Loading)
+                    assertTrue(awaitItem() is ResultState.Error)
+
+                    cancelAndConsumeRemainingEvents()
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `invalid email emits Error`() {
+        val request = LoginRequest("daniyalgmail.com", "Test@123")
+        // no stubbing required because invalid email doesnot proceed to call loginRepo function
+        runTest {
+            launch(Dispatchers.Main) {
+                useCase.login(request).test {
+                    assertTrue(awaitItem() is ResultState.Error)
+
+                    cancelAndConsumeRemainingEvents()
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `invalid password emits Error`() {
+        val request = LoginRequest("daniyal@gmail.com", "Test123")
+        // no stubbing required because invalid email doesnot proceed to call loginRepo function
+        runTest {
+            launch(Dispatchers.Main) {
+                useCase.login(request).test {
+                    assertTrue(awaitItem() is ResultState.Error)
+
+                    cancelAndConsumeRemainingEvents()
+                }
+            }
+        }
+    }
 }

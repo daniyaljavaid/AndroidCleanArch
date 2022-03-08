@@ -1,5 +1,6 @@
 package com.dj.login.data.repositoryImpl
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.dj.core.user.data.remote.dto.UserDto
 import com.dj.core.user.domain.model.User
@@ -7,17 +8,13 @@ import com.dj.core.util.result.ResultState
 import com.dj.login.data.remote.dto.LoginResponseDto
 import com.dj.login.data.remote.service.LoginService
 import com.dj.login.domain.model.LoginRequest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.test.resetMain
+import com.dj.login.MainCoroutineScopeRule
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody.Companion.toResponseBody
-import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -29,24 +26,22 @@ import retrofit2.HttpException
 
 @RunWith(MockitoJUnitRunner::class)
 class LoginRepositoryImplTest {
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val coroutineScope = MainCoroutineScopeRule()
 
     @Mock
     private lateinit var loginService: LoginService
+
     private lateinit var loginRepository: LoginRepositoryImpl
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        Dispatchers.setMain(mainThreadSurrogate)
-
         loginRepository = LoginRepositoryImpl(loginService)
-    }
-
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain() // reset the main dispatcher to the original Main dispatcher
-        mainThreadSurrogate.close()
     }
 
     private suspend fun stubLoginService(loginRequest: LoginRequest, resp: LoginResponseDto) {
@@ -66,18 +61,15 @@ class LoginRepositoryImplTest {
         Mockito.`when`(mockResp.isSuccessful).thenReturn(true)
         Mockito.`when`(mockResp.message).thenReturn("Login Success")
 
-        runTest {
-            launch(Dispatchers.Main) {
-                stubLoginService(request, mockResp)
-                loginRepository.submitLogin(request).test {
-                    assertTrue(awaitItem() is ResultState.Loading)
-                    val successResultState = awaitItem()
-                    assertTrue(successResultState is ResultState.Success)
-                    assertEquals("111-222", successResultState.data?.id)
+        coroutineScope.runTest {
+            stubLoginService(request, mockResp)
+            loginRepository.submitLogin(request).test {
+                assertTrue(awaitItem() is ResultState.Loading)
+                val successResultState = awaitItem()
+                assertTrue(successResultState is ResultState.Success)
+                assertEquals("111-222", successResultState.data?.id)
 
-                    cancelAndConsumeRemainingEvents()
-
-                }
+                cancelAndConsumeRemainingEvents()
 
             }
         }
@@ -91,17 +83,13 @@ class LoginRepositoryImplTest {
         Mockito.`when`(mockResp.isSuccessful).thenReturn(false)
         Mockito.`when`(mockResp.message).thenReturn("Incorrect email or password")
 
-        runTest {
-            launch(Dispatchers.Main) {
-                stubLoginService(request, mockResp)
-                loginRepository.submitLogin(request).test {
-                    assertTrue(awaitItem() is ResultState.Loading)
-                    assertTrue(awaitItem() is ResultState.Error)
+        coroutineScope.runTest {
+            stubLoginService(request, mockResp)
+            loginRepository.submitLogin(request).test {
+                assertTrue(awaitItem() is ResultState.Loading)
+                assertTrue(awaitItem() is ResultState.Error)
 
-                    cancelAndConsumeRemainingEvents()
-
-                }
-
+                cancelAndConsumeRemainingEvents()
             }
         }
     }
@@ -110,27 +98,25 @@ class LoginRepositoryImplTest {
     fun `service throws exception`() {
         val request = LoginRequest("da@gm.com", "Test@123")
 
-        runTest {
-            launch(Dispatchers.Main) {
-                Mockito.`when`(loginService.login(request.toDto())).thenThrow(
-                    HttpException(
-                        Response.error<Any>(
-                            500,
-                            "Test Server Error".toResponseBody("text/plain".toMediaType())
-                        )
+        coroutineScope.runTest {
+            Mockito.`when`(loginService.login(request.toDto())).thenThrow(
+                HttpException(
+                    Response.error<Any>(
+                        500,
+                        "Test Server Error".toResponseBody("text/plain".toMediaType())
                     )
                 )
+            )
 
-                loginRepository.submitLogin(request).test {
-                    assertTrue(awaitItem() is ResultState.Loading)
-                    val errorState = awaitItem()
-                    assertTrue(errorState is ResultState.Error)
-                    println(errorState.message)
-                    cancelAndConsumeRemainingEvents()
-
-                }
+            loginRepository.submitLogin(request).test {
+                assertTrue(awaitItem() is ResultState.Loading)
+                val errorState = awaitItem()
+                assertTrue(errorState is ResultState.Error)
+                println(errorState.message)
+                cancelAndConsumeRemainingEvents()
 
             }
+
         }
     }
 }

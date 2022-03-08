@@ -22,8 +22,8 @@ class LoginRepositoryImpl @Inject constructor(
         } else {
             emit(ResultState.Error(resp.message))
         }
-    }.catch {
-        emit(ResultState.Error("Request Failed"))
+    }.catch { e ->
+        emit(ResultState.Error(e.message ?: "Request Failed"))
     }
 
 }

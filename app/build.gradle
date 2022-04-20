@@ -157,4 +157,6 @@ dependencies {
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0'
 
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
+
 }

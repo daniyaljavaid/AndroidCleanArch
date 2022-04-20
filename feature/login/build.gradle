@@ -97,4 +97,7 @@ dependencies {
     androidTestImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.38.1'
 
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
+
+
 }

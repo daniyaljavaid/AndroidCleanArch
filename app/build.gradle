@@ -13,9 +13,6 @@ android {
         dataBinding true
     }
 
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file("local.properties").newDataInputStream())
-
     defaultConfig {
         applicationId "com.dj.app"
         minSdk 21
@@ -26,17 +23,20 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
-        stagConfig {
-            storeFile file(properties.getProperty('stagConfig.certPath'))
-            storePassword properties.getProperty('stagConfig.storePassword')
-            keyAlias properties.getProperty('stagConfig.keyAlias')
-            keyPassword properties.getProperty('stagConfig.keyPassword')
-        }
-        releaseConfig {
-            storeFile file(properties.getProperty('releaseConfig.certPath'))
-            storePassword properties.getProperty('releaseConfig.storePassword')
-            keyAlias properties.getProperty('releaseConfig.keyAlias')
-            keyPassword properties.getProperty('releaseConfig.keyPassword')
+        release {
+            def keyStoreFile = project.rootProject.file("keystore.properties")
+            if (keyStoreFile.exists()) {
+
+                Properties properties = new Properties()
+                properties.load(keyStoreFile.newDataInputStream())
+
+                storeFile file(properties.getProperty('signingConfig.certPath'))
+                storePassword properties.getProperty('signingConfig.storePassword')
+                keyAlias properties.getProperty('signingConfig.keyAlias')
+                keyPassword properties.getProperty('signingConfig.keyPassword')
+
+            }
+
         }
     }
     buildTypes {
@@ -68,7 +68,7 @@ android {
             buildConfigField("int", "DB_VERSION", '1')
             buildConfigField("long", "TIME_OUT", '30')
 
-            signingConfig signingConfigs.stagConfig
+            signingConfig signingConfigs.release
 
             applicationVariants.all { variant ->
                 variant.outputs.all {
@@ -87,7 +87,7 @@ android {
             buildConfigField("int", "DB_VERSION", '1')
             buildConfigField("long", "TIME_OUT", '30')
 
-            signingConfig signingConfigs.releaseConfig
+            signingConfig signingConfigs.release
 
             applicationVariants.all { variant ->
                 variant.outputs.all {

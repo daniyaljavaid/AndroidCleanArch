@@ -8,6 +8,7 @@ import com.dj.login.domain.model.LoginRequest
 import com.dj.login.domain.useCase.UseCaseLogin
 import com.dj.login.presentation.state.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +22,20 @@ class LoginViewModel @Inject constructor(
         MutableStateFlow(LoginState.Initial)
     val loginState: StateFlow<LoginState> = _loginState
 
+    //perform any task like fetching configurations from server
+    //then set _splashLoading to true so splash navigates to this activity
+    private val _splashLoading: MutableStateFlow<Boolean> =
+        MutableStateFlow(true)
+    val splashLoading = _splashLoading.asStateFlow()
+
     val bindingObject = BindingObject()
+
+    init {
+        viewModelScope.launch {
+            delay(2000)
+            _splashLoading.value = false
+        }
+    }
 
     fun login(un: String, pass: String) {
         viewModelScope.launch {

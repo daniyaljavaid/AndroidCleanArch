@@ -1,7 +1,7 @@
 package com.dj.core.base
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -10,31 +10,31 @@ import com.dj.core.util.event.UiEventUtil
 import com.dj.ui.progressDialog.ProgressDialog
 import kotlinx.coroutines.launch
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseFragment : Fragment() {
     private var customProgressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        customProgressDialog = ProgressDialog(this)
+        customProgressDialog = ProgressDialog(requireContext())
     }
 
     fun subscribeUiEvents(baseViewModel: BaseViewModel) {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 baseViewModel.uiEvents.collect { event ->
                     when (event) {
                         is UiEvent.ShowAlert -> {
-                            UiEventUtil.showAlert(event.message, this@BaseActivity)
+                            UiEventUtil.showAlert(event.message, requireContext())
                         }
                         is UiEvent.ShowToast -> {
-                            UiEventUtil.showToast(event.message, this@BaseActivity)
+                            UiEventUtil.showToast(event.message, requireContext())
                         }
                         is UiEvent.ShowLoader -> {
                             UiEventUtil.showLoader(event.show, customProgressDialog)
                         }
                         is UiEvent.ShowSnackBar -> {
                             UiEventUtil.showSnackBar(
-                                findViewById(android.R.id.content),
+                                requireActivity().findViewById(android.R.id.content),
                                 event.message,
                                 event.action
                             )

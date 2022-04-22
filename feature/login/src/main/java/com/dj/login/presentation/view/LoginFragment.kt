@@ -20,22 +20,21 @@ import kotlinx.coroutines.launch
 class LoginFragment : BaseFragment() {
     private val viewModel: LoginViewModel by viewModels()
 
-    private var binding: FragmentLoginBinding? = null
+    private lateinit var binding: FragmentLoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        if (binding == null)
-            binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
-        return binding?.root
+    ): View {
+        binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         subscribeUiEvents(viewModel)
-        binding?.viewModel = viewModel
+        binding.viewModel = viewModel
         subscribeToObservables()
 
     }

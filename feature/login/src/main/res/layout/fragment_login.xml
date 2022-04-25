@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_app"
-        android:padding="15dp">
+        android:padding="@dimen/spacing_normal">
 
         <TextView
             android:id="@+id/tvLogin"
@@ -57,7 +57,7 @@
             android:id="@+id/tilPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:hint="@string/hint_password"
             app:boxBackgroundColor="@color/bg_app"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
             android:id="@+id/cbRememberMe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:checked="true"
             android:text="@string/text_remember_me"
             android:textColor="@color/tv_black"
@@ -97,8 +97,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="25dp"
+            android:layout_height="@dimen/button_height_tall"
+            android:layout_marginTop="@dimen/spacing_large"
             android:onClick="@{() -> viewModel.login(viewModel.bindingObject.email, viewModel.bindingObject.password)}"
             android:text="@string/text_login"
             app:layout_constraintTop_toBottomOf="@id/cbRememberMe" />
